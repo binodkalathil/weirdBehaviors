@@ -1,0 +1,65 @@
+<!--- create a dummy query using queryNew --->
+<cfset news = queryNew("id,title", "integer,varchar")>
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "1")>
+<cfset querySetCell(news, "title", "##Dewey defeats Truman")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "2")>
+<cfset querySetCell(news, "title", "$Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "3")>
+<cfset querySetCell(news, "title", "$Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "4")>
+<cfset querySetCell(news, "title", "&Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "5")>
+<cfset querySetCell(news, "title", "'Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "6")>
+<cfset querySetCell(news, "title", "%Men walk on Moon")>
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "10")>
+<cfset querySetCell(news, "title", "%Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "7")>
+<cfset querySetCell(news, "title", "(Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "8")>
+<cfset querySetCell(news, "title", ")Men walk on Moon")>
+
+<cfset queryAddRow(news)>
+<cfset querySetCell(news, "id", "9")>
+<cfset querySetCell(news, "title", "*Men walk on Moon")>
+
+
+
+<cfset writeDump(news)>
+
+<!--- run QofQ (query of query) --->
+<cfquery name="sortedNews" dbtype="query">
+    SELECT DISTINCT title FROM news
+</cfquery>
+<cfset writeDump(sortedNews)>
+<!--- run QofQ (query of query) --->
+<cfquery name="sortedNews" dbtype="query">
+    SELECT title FROM news order by title
+</cfquery>
+<cfset writeDump(sortedNews)>
+
+
+<cfscript>
+    local.result = arrayNew(1, false);
+    cfloop(query="news", group="title"){
+        arrayAppend(local.result, {"topicname":news.title}
+        );
+      }
+      writeDump(local.result);
+</cfscript>
